@@ -1,18 +1,18 @@
 const siteMetadata = {
-  title: 'Next.js Starter Blog',
-  author: 'Tails Azimuth',
-  headerTitle: 'TailwindBlog',
-  description: 'A blog created with Next.js and Tailwind.css',
+  title: 'Mark’s Programming Blog',
+  author: 'Mark Rafter',
+  headerTitle: 'Mark’s Programming Blog',
+  description: 'Arbitrary thoughts on programming',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://blog-markr-ao.vercel.app/',
+  siteRepo: 'https://github.com/markr-ao/blog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
   socialBanner: '/static/images/twitter-card.png',
-  email: 'address@yoursite.com',
-  github: 'https://github.com',
-  linkedin: 'https://www.linkedin.com',
+  email: 'mark.rafter@ao.com',
+  github: 'https://github.com/markr-ao',
+  linkedin: 'https://www.linkedin.com/m-rafter',
   locale: 'en-US',
   comment: {
     // If you want to use a commenting system other than giscus you have to add it to the

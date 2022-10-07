@@ -1,11 +1,11 @@
 ---
-name: Tails Azimuth
+name: Mark Rafter
 avatar: /static/images/avatar.png
-occupation: Professor of Atmospheric Science
-company: Stanford University
-email: address@yoursite.com
-linkedin: https://www.linkedin.com
-github: https://github.com
+occupation: Full Stack Developer
+company: AO
+email: mark.rafter@ao.com
+linkedin: https://www.linkedin.com/m-rafter
+github: https://github.com/markr-ao
 ---
 
 Author Bio
