@@ -1,7 +1,7 @@
 const siteMetadata = {
-  title: 'Mark’s Programming Blog',
+  title: 'Mark @ AO',
   author: 'Mark Rafter',
-  headerTitle: 'Mark’s Programming Blog',
+  headerTitle: 'Mark @ AO',
   description: 'Arbitrary thoughts on programming',
   language: 'en-us',
   theme: 'system', // system, dark or light
