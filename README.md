@@ -93,7 +93,6 @@ I wanted it to be nearly as feature-rich as popular blogging templates like [bea
 - Support for nested routing of blog posts
 - Newsletter component with support for mailchimp, buttondown, convertkit, klaviyo, revue, and emailoctopus
 - Supports [giscus](https://github.com/laymonage/giscus), [utterances](https://github.com/utterance/utterances) or disqus
-- Projects page
 - Preconfigured security headers
 - SEO friendly with RSS feed, sitemaps and more!
 
@@ -133,7 +132,7 @@ npx degit https://github.com/timlrx/tailwind-nextjs-starter-blog.git
 3. Modify the content security policy in `next.config.js` if you want to use
    any analytics provider or a commenting solution other than giscus.
 4. Personalize `authors/default.md` (main author)
-5. Modify `projectsData.js`
+5. ~~Modify `projectsData.js`~~
 6. Modify `headerNavLinks.js` to customize navigation links
 7. Add blog posts
 8. Deploy on Vercel
@@ -168,7 +167,7 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 `data/authors/default.md` - default author information (required). Additional authors can be added as files in `data/authors`.
 
-`data/projectsData.js` - data used to generate styled card on the projects page.
+~~`data/projectsData.js` - data used to generate styled card on the projects page.~~
 
 `data/headerNavLinks.js` - navigation links.
 
