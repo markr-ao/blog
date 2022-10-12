@@ -18,6 +18,7 @@ const patientValidator = {
 ```
 
 This code violates the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter), which simply states that a component/object/unit should only talk to its immediate children, and not its grandchildren or deeper ancestors. In this case, `patientValidator` has been tightly coupled to its grandchildren `patient.eyes[0]` and `patient.eyes[0].colour`, as shown by the orange arrows in the dependency graph below.
+
 ![fig1](/static/images/law-of-demeter/fig1.png)
 
 ## Solution
