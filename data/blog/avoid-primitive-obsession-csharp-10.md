@@ -33,10 +33,12 @@ public readonly record struct Country
     readonly string _value;
     static readonly string[] _validCountries = { "United States", "Canada" };
 
+    // consider making this private to force construction via TryParse
     public Country(string value) => _value = value;
+
     public static implicit operator string(Country other) => other._value;
 
-    // this method is used by ASP.NET serialiser to convert from JSON
+    // this method is used by ASP.NET minimal APIs to convert query parameter strings
     public static bool TryParse(string input, out Country output)
     {
         // validation logic goes here
@@ -72,6 +74,9 @@ Thus forcing us to fix the ordering at compile time, without the need to write a
 ## Decimal example
 
 ```csharp
+var vatFraction = new Fraction(0.2m);
+Console.WriteLine($"VAT is charged at {vatFraction.ToPercentage()}%");
+
 public readonly record struct Fraction
 {
     readonly decimal _value;
