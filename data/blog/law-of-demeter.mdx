@@ -1,0 +1,110 @@
+---
+title: Law of Demeter (don’t talk to strangers)
+date: '2022-10-10'
+tags: ['refactoring', 'code smell']
+draft: true
+summary: Example of a code smell violating the Law of Demeter, why it's bad, and how to fix it.
+---
+
+## Problem
+
+A common occurence you may see in object-oriented code is something like:
+
+```js
+const patientValidator = {
+    patient,
+    assertHasBlueEyes: () => console.assert(patient.eyes[0].colour == "blue");
+}
+```
+
+This code violates the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter), which simply states that a component/object/unit should only talk to its immediate children, and not its grandchildren or deeper ancestors. In this case, `patientValidator` has been tightly coupled to its grandchildren `eyes` and `colour`, as shown by the orange arrows in the dependency graph below.
+
+![fig1](/static/images/law-of-demeter/patientvalidator-dependencies.png)
+
+## Solution
+
+To remove this coupling, we can do:
+
+```js
+const patient = {
+    // ...
+    getEyeColour: () => eyes[0].colour
+};
+
+const patientValidator = {
+    patient,
+    assertHasBlueEyes: () => console.assert(patient.getEyeColour() == "blue");
+}
+```
+
+## Benefits
+
+Let's say we are developing a medical app that displays a patient's eye colour for the purposes of identification.
+
+```jsx
+// PatientDetails.jsx
+<>
+    <Row label="Eye Colour" value={patient.eyes[0].colour} />
+</>
+```
+
+Now a new feature needs to be added to the app to measure levels of jaundice and conjunctivitis. `eyeColour` is now an ambiguous term that could refer to either the pupil or the sclera, so we refactor the patient object to eliminate this ambiguity:
+
+```js
+const patient = {
+    eyes: [
+        { pos: "left", pupilColour: "blue", scleraColour: "white" },
+        { pos: "right", pupilColour: "blue", scleraColour: "white" }
+    ]
+};
+```
+
+Now we must remember to update all references to `pupil.eyes[#].colour` in our views, models, and tests else we will encounter runtime errors.
+
+If instead we had followed the law of demeter, we would only need to change `getEyeColour`
+
+```js
+const patient = {
+    eyes: [
+        { pos: "left", pupilColour: "blue", scleraColour: "white" },
+        { pos: "right", pupilColour: "blue", scleraColour: "white" }
+    ],
+    getEyeColour: (eyePart) => {
+        switch (eyePart) {
+            case "sclera":
+                return eyes[0].scleraColour;
+            default:
+                return eyes[0].pupilColour;
+        }
+    }
+};
+
+// PatientDetails.jsx
+<>
+    <Row label="Eye Colour" value={patient.getEyeColour()} />
+</>
+```
+This also makes the `patient` object and `PatientDetails` component easier to test since we only need to stub the getEyeColour method and not worry about its implementation details. If the implementation changes, the tests do not need to be changed.
+
+## Considerations
+As with any principle, there are tradeoffs to this approach. We are adding layer(s) of indirection, so if our code contains one reference to `a.b.c.d` that we wish to refactor to `a.getD()`, it is probably not worth the effort to implement `getD()` inside of `a` and `b` like so (sometimes known as *lasagna code*):
+
+```js
+// a.js
+const a = {
+    b,
+    getD: () => b.getD()
+};
+
+// b.js
+const b = { 
+    c,
+    getD: () => c.d
+};
+
+// c.js
+const c = { d };
+
+// d.js
+const d = {};
+```
