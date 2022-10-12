@@ -2,7 +2,7 @@
 title: Avoid primitive obsession using C#9 record structs
 date: '2022-10-12'
 tags: ['csharp', 'code smell', 'refactoring', 'type safety']
-draft: true
+draft: false
 summary: Catch errors at compile time, without having to write unit tests, using strong types in place of primitives.
 ---
 
