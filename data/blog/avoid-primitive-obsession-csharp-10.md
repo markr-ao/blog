@@ -68,3 +68,39 @@ Now if we were to invoke the constructor with parameters in the wrong order, e.g
 - Argument 2: cannot convert from 'Country' to 'ZipCode'
 
 Thus forcing us to fix the ordering at compile time, without the need to write any unit tests.
+
+## Decimal example
+
+```csharp
+public readonly record struct Fraction
+{
+    readonly decimal _value;
+
+    public Fraction(decimal value)
+    {
+        if (value < 0 || value > 1) 
+            throw new ArgumentException($"{value} must be between 0 and 1");
+        _value = value;
+    }
+
+    public static implicit operator decimal(Fraction other) => other._value;
+
+    public Percentage ToPercentage() => new(_value * 100);
+}
+
+public readonly record struct Percentage
+{
+    readonly decimal _value;
+
+    public Percentage(decimal value)
+    {
+        if (value < 0 || value > 100) 
+            throw new ArgumentException($"{value} must be between 0 and 100");
+        _value = value;
+    }
+
+    public static implicit operator decimal(Percentage other) => other._value;
+
+    public Fraction ToFraction() => new(_value / 100);
+}
+```
