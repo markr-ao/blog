@@ -13,7 +13,9 @@ A common occurence you may see in object-oriented code is something like:
 ```js
 const patientValidator = {
     patient,
-    assertHasBlueEyes: () => console.assert(patient.eyes[0].colour == "blue")
+    assertHasBlueEyes: function () {
+        console.assert(this.patient.eyes[0].colour == "blue");
+    } 
 };
 ```
 
@@ -28,12 +30,16 @@ To remove this coupling, we can add the method `getEyeColour` to `patient`:
 ```js
 const patient = {
     // ...
-    getEyeColour: () => eyes[0].colour
+    getEyeColour: function () {
+        return this.eyes[0].colour;
+    }
 };
 
 const patientValidator = {
     patient,
-    assertHasBlueEyes: () => console.assert(patient.getEyeColour() == "blue")
+    assertHasBlueEyes: function () {
+        console.assert(this.patient.getEyeColour() == "blue");
+    } 
 };
 ```
 
@@ -61,7 +67,7 @@ const patient = {
 
 Now we must remember to update all references to `pupil.eyes[#].colour` in our views, models, and tests else we will encounter runtime errors.
 
-If instead we had followed the law of demeter, we would only need to change `getEyeColour`
+If instead we had followed the law of demeter, we would only need to change `getEyeColour`:
 
 ```js
 const patient = {
@@ -69,12 +75,12 @@ const patient = {
         { pos: "left", pupilColour: "blue", scleraColour: "white" },
         { pos: "right", pupilColour: "blue", scleraColour: "white" }
     ],
-    getEyeColour: (eyePart) => {
+    getEyeColour: function (eyePart) {
         switch (eyePart) {
             case "sclera":
-                return eyes[0].scleraColour;
+                return this.eyes[0].scleraColour;
             default:
-                return eyes[0].pupilColour;
+                return this.eyes[0].pupilColour;
         }
     }
 };
@@ -93,13 +99,13 @@ As with any principle, there are tradeoffs to this approach. We are adding layer
 // a.js
 const a = {
     b,
-    getD: () => b.getD()
+    getD: function () { return this.b.getD(); } 
 };
 
 // b.js
 const b = { 
     c,
-    getD: () => c.d
+    getD: function () { return this.c.d; } 
 };
 
 // c.js
