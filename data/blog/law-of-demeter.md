@@ -8,7 +8,7 @@ summary: Example of a code smell violating the Law of Demeter, why it's bad, and
 
 ## Problem
 
-A common occurence you may see in object-oriented code is something like:
+A common pattern you may see in object-oriented code is something like:
 
 ```js
 const patientValidator = {
@@ -19,13 +19,13 @@ const patientValidator = {
 };
 ```
 
-This code violates the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter), which simply states that a component/object/unit should only talk to its immediate children, and not its grandchildren or deeper ancestors. In this case, `patientValidator` has been tightly coupled to its grandchildren `patient.eyes[0]` and `patient.eyes[0].colour`, as shown by the orange arrows in the dependency graph below.
+This code violates the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter), which states that a component/object/unit should only talk to its immediate children, and not its grandchildren or deeper ancestors. In this case, `patientValidator` has been tightly coupled to its grandchildren `patient.eyes[0]` and `patient.eyes[0].colour`, as shown by the orange arrows in the dependency graph below.
 
 ![fig1](/static/images/law-of-demeter/fig1.png)
 
 ## Solution
 
-To remove this coupling, we can add the method `getEyeColour` to `patient`:
+To remove this coupling, we can [encapsulate](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)) the access to `eyes` by adding the method `getEyeColour` to `patient`:
 
 ```js
 const patient = {
@@ -67,7 +67,7 @@ const patient = {
 
 Now we must remember to update all references to `pupil.eyes[#].colour` in our views, models, and tests else we will encounter runtime errors.
 
-If instead we had followed the law of demeter, we would only need to change `getEyeColour`:
+If instead we had followed the Law of Demeter, we would only need to change `getEyeColour`:
 
 ```js
 const patient = {
@@ -87,30 +87,11 @@ const patient = {
 
 // PatientDetails.jsx
 <>
-    <Row label="Eye Colour" value={patient.getEyeColour()} />
+    <Row label="Pupil Colour" value={patient.getEyeColour()} />
+    <Row label="Sclera Colour" value={patient.getEyeColour("sclera")} />
 </>
 ```
-This also makes the `patient` object and `PatientDetails` component easier to test since we only need to stub the getEyeColour method and not worry about its implementation details. If the implementation changes, the tests do not need to be changed.
+This also makes the `patient` object and `PatientDetails` component easier to test since we only need to stub the `getEyeColour` method and instead of building a correctly-shaped `patient` object. If the shape of `patient` changes, the components/tests do not need to be changed.
 
 ## Considerations
-As with any principle, there are tradeoffs to this approach. We are adding layer(s) of indirection, so if our code contains one reference to `a.b.c.d` that we wish to refactor to `a.getD()`, it is probably not worth the effort to implement `getD()` inside of `a` and `b` as below (sometimes known as *lasagna code*):
-
-```js
-// a.js
-const a = {
-    b,
-    getD: function () { return this.b.getD(); } 
-};
-
-// b.js
-const b = { 
-    c,
-    getD: function () { return this.c.d; } 
-};
-
-// c.js
-const c = { d };
-
-// d.js
-const d = {};
-```
+As with any principle, there are tradeoffs to this approach. We are adding layer(s) of indirection, so if our code contains a single reference to `a.b.c.d` that we wish to refactor to `a.getD()`, it is probably not worth the extra effort to implement `getD()` inside of `a` and `b` (sometimes known as *lasagna code*).
