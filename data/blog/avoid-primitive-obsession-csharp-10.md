@@ -3,7 +3,7 @@ title: Avoid primitive obsession using C#9 record structs
 date: '2022-10-12'
 tags: ['csharp', 'code smell', 'refactoring', 'type safety']
 draft: false
-summary: Catch errors at compile time, without having to write unit tests, using strong types in place of primitives.
+summary: Catch errors at compile time, without having to write unit tests, using ValueObjects in place of primitives.
 ---
 
 ## Problem
@@ -21,7 +21,7 @@ With 9 consecutive string parameters, it is very easy for parameters to be mispl
 
 ## Solution
 
-Using `record struct`s, we can replace some or all of these primitive types with specific types (for the sake of brevity, I have simplified the constructor to 2 parameters):
+Using `record struct`s, we can replace some or all of these primitive types with specific types known as [ValueObjects](https://www.martinfowler.com/bliki/ValueObject.html) (for the sake of brevity, I have simplified the constructor to 2 parameters):
 
 ```csharp
 // CheckoutEvent.cs
@@ -73,7 +73,7 @@ Thus forcing us to fix the ordering at compile time, without the need to write a
 
 ## Decimal example
 
-Another benefit of avoiding primitives is enhanced type safety. The `decimal` type can be any value between -7.9 × 10⁻²⁸ to 7.9 × 10²⁸, but in real world applications having such a vast range rarely makes sense. Measures such as a person's height, weight, or test score can never have negative values and realistically have upper limits. Some measures can have different values when expressed in different units, e.g. temperature (Celsius, Fahrenheit, or Kelvin). By storing the value in a non-primitive type that validates during construction, we can confidently use the value in our application without having to pollute our code with checks or converter methods. We only need to unit test our non-primitive type instead of every unit that uses the value.
+Another benefit of avoiding primitives is enhanced type safety. The `decimal` type can be any value between -7.9 × 10⁻²⁸ to 7.9 × 10²⁸, but in real world applications having such a vast range rarely makes sense. Measures such as a person's height, weight, or test score can never have negative values and realistically have upper limits. Some measures can have different values when expressed in different units, e.g. temperature (Celsius, Fahrenheit, or Kelvin). By storing the value in a ValueObject that validates during construction, we can confidently use the value in our application without having to pollute our code with checks or converter methods. We only need to unit test our ValueObject instead of every unit that uses the value.
 
 ```csharp
 var vatFraction = new Fraction(0.2m);
