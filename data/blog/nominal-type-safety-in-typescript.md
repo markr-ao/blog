@@ -21,7 +21,9 @@ type ShippingAddress = Address
 type BillingAddress = Address
 
 class CustomerOrder {
-  constructor(private shippingAddress: ShippingAddress, private billingAddress: BillingAddress) {}
+  constructor(
+    private shippingAddress: ShippingAddress, 
+    private billingAddress: BillingAddress) {}
 
   checkout(): void {
     this.bill(this.billingAddress)
