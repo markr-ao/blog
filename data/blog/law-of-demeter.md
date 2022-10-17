@@ -82,7 +82,9 @@ const patient = {
     }
   },
 }
+```
 
+```jsx
 // PatientDetails.jsx
 <Row label="Pupil Colour" value={patient.getEyeColour()} />
 <Row label="Sclera Colour" value={patient.getEyeColour('sclera')} />
