@@ -17,7 +17,7 @@ DateTime cardExpiration, string cardSecurityNumber, int cardTypeId, string buyer
 CustomerBasket basket)
 ```
 
-With 9 consecutive string parameters, it is very easy for parameters to be misplaced when this constructor is invoked, for example, `country` being swapped with `zipCode`. If not manually detected, this bug can easily make its way into production code since both parameters have the same type (`string`).
+With 9 consecutive string parameters, it is very easy for arguments to be misplaced when this constructor is invoked, for example, `country` being swapped with `zipCode`. If not manually detected, this bug can easily make its way into production code since both parameters have the same type (`string`).
 
 ## Solution
 
@@ -38,7 +38,7 @@ public readonly record struct Country
 
     public static implicit operator string(Country other) => other._value;
 
-    // this method is used by ASP.NET minimal APIs to convert query parameter strings
+    // this method is used by ASP.NET minimal APIs to deserialise URL query string parameters
     public static bool TryParse(string input, out Country output)
     {
         // validation logic goes here
@@ -64,7 +64,7 @@ public readonly record struct ZipCode
 }
 ```
 
-Now if we were to invoke the constructor with parameters in the wrong order, e.g. `var event = new CheckoutEvent(zipCode, country);` we would encounter compile errors:
+Now if we were to invoke the constructor with arguments in the wrong order, e.g. `var event = new CheckoutEvent(zipCode, country);` we would encounter compile errors:
 
 - Argument 1: cannot convert from 'ZipCode' to 'Country'
 - Argument 2: cannot convert from 'Country' to 'ZipCode'
