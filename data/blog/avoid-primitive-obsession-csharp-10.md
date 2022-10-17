@@ -73,7 +73,7 @@ Thus forcing us to fix the ordering at compile time, without the need to write a
 
 ## Decimal example
 
-Another benefit of avoiding primitives is enhanced type safety. The `decimal` type can be any value between -7.9 × 10⁻²⁸ to 7.9 × 10²⁸, but in real world applications having such a vast range rarely makes sense. Measures such as a person's height, weight, or test score can never have negative values and realistically have upper limits. By using ValueObjects, we can encapsulate this validation and confidently convert and persist the value.
+Another benefit of avoiding primitives is enhanced type safety. The `decimal` type can be any value between -7.9 × 10<sup>-28</sup> to 7.9 × 10<sup>28</sup>, but in real world applications having such a vast range rarely makes sense. Measures such as a person's height, weight, or test score can never have negative values and realistically have upper limits. By using ValueObjects, we can encapsulate this validation and confidently convert and persist the value.
 
 ```csharp
 public readonly record struct HeightCentimetres
