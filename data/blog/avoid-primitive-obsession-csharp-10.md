@@ -1,5 +1,5 @@
 ---
-title: Avoid primitive obsession using C#9 record structs
+title: Avoid primitive obsession using C#10 record structs
 date: '2022-10-12'
 tags: ['csharp', 'code smell', 'refactoring', 'type safety']
 draft: false
@@ -73,41 +73,26 @@ Thus forcing us to fix the ordering at compile time, without the need to write a
 
 ## Decimal example
 
-Another benefit of avoiding primitives is enhanced type safety. The `decimal` type can be any value between -7.9 × 10⁻²⁸ to 7.9 × 10²⁸, but in real world applications having such a vast range rarely makes sense. Measures such as a person's height, weight, or test score can never have negative values and realistically have upper limits. Some measures can have different values when expressed in different units, e.g. temperature (Celsius, Fahrenheit, or Kelvin). By storing the value in a ValueObject that validates during construction, we can confidently use the value in our application without having to pollute our code with checks or converter methods. We only need to unit test our ValueObject instead of every unit that uses the value.
+Another benefit of avoiding primitives is enhanced type safety. The `decimal` type can be any value between -7.9 × 10⁻²⁸ to 7.9 × 10²⁸, but in real world applications having such a vast range rarely makes sense. Measures such as a person's height, weight, or test score can never have negative values and realistically have upper limits. By using ValueObjects, we can encapsulate this validation and confidently convert and persist the value.
 
 ```csharp
-var vatFraction = new Fraction(0.2m);
-Console.WriteLine($"VAT is charged at {vatFraction.ToPercentage()}%");
-
-public readonly record struct Fraction
+public readonly record struct HeightCentimetres
 {
     readonly decimal _value;
 
-    public Fraction(decimal value)
+    public HeightCentimetres(decimal value)
     {
-        if (value < 0 || value > 1)
-            throw new ArgumentException($"{value} must be between 0 and 1");
+        if (value < 10 || value > 300)
+            throw new ArgumentException($"{value} must be between 10 and 300");
         _value = value;
     }
 
-    public static implicit operator decimal(Fraction other) => other._value;
+    public static implicit operator decimal(HeightCentimetres other) => other._value;
 
-    public Percentage ToPercentage() => new(_value * 100);
-}
-
-public readonly record struct Percentage
-{
-    readonly decimal _value;
-
-    public Percentage(decimal value)
-    {
-        if (value < 0 || value > 100)
-            throw new ArgumentException($"{value} must be between 0 and 100");
-        _value = value;
-    }
-
-    public static implicit operator decimal(Percentage other) => other._value;
-
-    public Fraction ToFraction() => new(_value / 100);
+    public HeightInches ToInches() => new(_value / 2.54);
 }
 ```
+
+## C#9 and earlier
+
+If C#10 record structs are not available in your project, an alternative solution is to use the [VOGen](https://github.com/SteveDunn/Vogen) NuGet package, which uses .NET 5 source generators. If your code base is in .NET Core or .NET Framework, you can use [ValueOf](https://github.com/mcintyre321/ValueOf), however one caveat with this solution is that the ValueObject will be serialised to a boxed value (`"MyValueObject": { "Value": "value" }`), and the underlying value is not implicitly cast, it must be accessed via the public `.Value` property.
