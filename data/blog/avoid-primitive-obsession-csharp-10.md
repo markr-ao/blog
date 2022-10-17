@@ -82,8 +82,8 @@ public readonly record struct HeightCentimetres
 
     public HeightCentimetres(decimal value)
     {
-        if (value < 10 || value > 300)
-            throw new ArgumentException($"{value} must be between 10 and 300");
+        if (value < 20 || value > 300)
+            throw new ArgumentException($"{value} must be between 20 and 300");
         _value = value;
     }
 

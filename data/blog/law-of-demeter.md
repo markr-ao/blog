@@ -3,7 +3,7 @@ title: Law of Demeter (don’t talk to strangers)
 date: '2022-10-10'
 tags: ['refactoring', 'code smell']
 draft: false
-summary: Example of a code smell violating the Law of Demeter, why it's bad, and how to fix it.
+summary: Example of a code smell violating the Law of Demeter, why it's problematic, and how to fix it.
 ---
 
 ## Problem
@@ -49,9 +49,7 @@ Let's say we are developing a medical app that displays a patient's eye colour f
 
 ```jsx
 // PatientDetails.jsx
-<>
-  <Row label="Eye Colour" value={patient.eyes[0].colour} />
-</>
+<Row label="Eye Colour" value={patient.eyes[0].colour} />
 ```
 
 Now a new feature needs to be added to the app to measure levels of jaundice and conjunctivitis. `colour` is now an ambiguous term that could refer to either the pupil or the sclera, so we refactor the patient object to eliminate this ambiguity:
@@ -86,10 +84,8 @@ const patient = {
 }
 
 // PatientDetails.jsx
-;<>
-  <Row label="Pupil Colour" value={patient.getEyeColour()} />
-  <Row label="Sclera Colour" value={patient.getEyeColour('sclera')} />
-</>
+<Row label="Pupil Colour" value={patient.getEyeColour()} />
+<Row label="Sclera Colour" value={patient.getEyeColour('sclera')} />
 ```
 
 This also makes the `patient` object and `PatientDetails` component easier to test since we only need to stub the `getEyeColour` method and instead of building a correctly-shaped `patient` object. If the shape of `patient` changes, the components/tests do not need to be changed.

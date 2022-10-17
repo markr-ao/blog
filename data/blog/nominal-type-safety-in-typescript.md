@@ -54,7 +54,7 @@ const bobsOrder = new CustomerOrder(bobBillingAddress, bobShippingAddress)
 bobsOrder.checkout()
 ```
 
-Although this code compiles and will not throw runtime errors, it contains a bug whereby the the order will attempt to be billed to `bobShippingAddress` and shipped to `bobBillingAddress`.
+Although this code compiles and will not throw runtime errors, it contains a bug whereby the order will attempt to be billed to `bobShippingAddress` and shipped to `bobBillingAddress`.
 
 ## Solution
 
