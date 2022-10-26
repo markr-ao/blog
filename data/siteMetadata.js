@@ -1,5 +1,5 @@
 const siteMetadata = {
-  title: 'Mark @ AO',
+  title: 'Mark at AO',
   author: 'Mark Rafter',
   headerTitle: 'Mark @ AO',
   description: 'Arbitrary thoughts on programming',
