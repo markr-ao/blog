@@ -2,6 +2,7 @@
 title: Avoid primitive obsession using C#10 record structs
 date: '2022-10-12'
 tags: ['csharp', 'code smell', 'refactoring', 'type safety']
+images: ['/static/images/avoid-primitive-obsession-csharp-10/card.png']
 draft: false
 summary: Catch errors at compile time, without having to write unit tests, using ValueObjects in place of primitives.
 ---
