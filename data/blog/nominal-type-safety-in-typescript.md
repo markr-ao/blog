@@ -2,6 +2,7 @@
 title: Nominal type safety in TypeScript
 date: '2022-10-14'
 tags: ['typescript', 'refactoring', 'type safety', 'shift left']
+images: ['/static/images/nominal-type-safety-in-typescript/card.png']
 draft: false
 summary: Catch bugs at compile time using nominal types in TypeScript.
 ---
