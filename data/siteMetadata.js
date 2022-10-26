@@ -5,7 +5,7 @@ const siteMetadata = {
   description: 'Arbitrary thoughts on programming',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://blog-markr-ao.vercel.app/',
+  siteUrl: 'https://blog-markr-ao.vercel.app',
   siteRepo: 'https://github.com/markr-ao/blog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
