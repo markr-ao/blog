@@ -1,7 +1,7 @@
 ---
 title: Nominal type safety in TypeScript
 date: '2022-10-14'
-tags: ['typescript', 'refactoring', 'type safety']
+tags: ['typescript', 'refactoring', 'type safety', 'shift left']
 draft: false
 summary: Catch bugs at compile time using nominal types in TypeScript.
 ---
@@ -21,9 +21,7 @@ type ShippingAddress = Address
 type BillingAddress = Address
 
 class CustomerOrder {
-  constructor(
-    private shippingAddress: ShippingAddress, 
-    private billingAddress: BillingAddress) {}
+  constructor(private shippingAddress: ShippingAddress, private billingAddress: BillingAddress) {}
 
   checkout(): void {
     this.bill(this.billingAddress)
@@ -74,4 +72,4 @@ Now we will encounter a compile error `Argument of type 'BillingAddress' is not 
 const bobsOrder = new CustomerOrder(bobBillingAddress, bobShippingAddress)
 ```
 
-After swapping the parameters to fix the compile error, the order will now bill to the billing address and ship to the shipping address.
+After swapping the arguments to fix the compile error, the order will now bill to the billing address and ship to the shipping address.
