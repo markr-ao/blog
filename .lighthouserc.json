@@ -1,21 +1,20 @@
 {
   "ci": {
-    "upload": {
-      "target": "temporary-public-storage"
-    },
     "collect": {
+      "startServerCommand": "npm run start",
+      "startServerReadyPattern": "ready on",
+      "url": ["http://localhost:3000"],
+      "numberOfRuns": 1,
       "settings": {
-        "chromeFlags": "--no-sandbox"
+        "preset": "desktop"
       }
     },
     "assert": {
-      "preset": "lighthouse:no-pwa",
-      "assertions": {
-        "categories:performance": ["alert", { "minScore": 0.9 }],
-        "categories:accessibility": ["alert", { "minScore": 0.9 }],
-        "categories:best-practices": ["alert", { "minScore": 0.9 }],
-        "categories:seo": ["alert", { "minScore": 0.9 }]
-      }
-    }
+      "preset": "lighthouse:recommended"
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "server": {}
   }
 }
